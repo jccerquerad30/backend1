@@ -1,4 +1,8 @@
-require("dotenv").config();
+// Cargar variables de entorno primero
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -10,6 +14,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Log para debug
+console.log("🔧 Configuración:");
+console.log(`   NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`   PORT: ${process.env.PORT || 3000}`);
+console.log(`   MONGODB_URI configurada: ${process.env.MONGODB_URI ? "✓ Sí" : "✗ No"}`);
 
 // Conexión a MongoDB
 conectarDB().catch(err => {
