@@ -39,7 +39,7 @@ router.post("/register", asyncHandler(async (req, res) => {
 
 // Login
 router.post("/login", asyncHandler(async (req, res) => {
-  const { usuario, contraseña, rol } = req.body;
+  const { usuario, contraseña } = req.body;
 
   if (!usuario || !contraseña) {
     return res.status(400).json({ ok: false, msg: "Usuario y contraseña requeridos" });
@@ -53,11 +53,6 @@ router.post("/login", asyncHandler(async (req, res) => {
   const contraseñaValida = await bcrypt.compare(contraseña, usuarioEncontrado.contraseña);
   if (!contraseñaValida) {
     return res.status(400).json({ ok: false, msg: "Contraseña incorrecta" });
-  }
-
-  // Validar rol si se proporciona
-  if (rol && usuarioEncontrado.rol !== rol) {
-    return res.status(400).json({ ok: false, msg: "El rol no coincide con el usuario" });
   }
 
   res.json({
